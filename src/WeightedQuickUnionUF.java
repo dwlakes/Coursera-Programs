@@ -15,79 +15,77 @@ import edu.princeton.cs.algs4.StdOut;
 
 
 public class WeightedQuickUnionUF {
-    private int[] parent;   // parent[i] = parent of i
-    private int[] size;     // size[i] = number of elements in subtree rooted at i
-    private int count;      // number of components
-
-  
+    private int[] parent;
+    private int[] size;
+    private int count;
+    
+    //creates weighted union
     public WeightedQuickUnionUF(int n) {
-        count = n;
-        parent = new int[n];
-        size = new int[n];
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-            size[i] = 1;
-        }
+    	count = n;
+    	parent = new int[n];
+    	size = new int[n];
+    	
+    	//initializes all the different people
+    	for (int i = 0; i < n; i++) {
+    		//everyone is their own parent initially
+    		parent[i] = i;
+    		//initially, nobody knows anyone, so the trees are size one
+    		size[i] = 1;
+    	}
     }
-
-    public int count() {
-        return count;
-    }
-
-   
+    
     public int root(int p) {
-        while (p != parent[p]) {
-        	//compresses path
-        	parent[p] = parent[parent[p]];
-        	p = parent[p];
-        }
-            
-        return p;
+    	//compress path
+    	while (p != parent[p]) {
+    		//p's parent points to grandparent
+    		parent[p] = parent[parent[p]];
+    		p = parent[p];
+    	}
+    	return p;
     }
-
-    private boolean connected(int p, int q) {
-        return root(p) == root(q);
+    
+    public int count() {
+    	return count;
     }
-
+    
     public void union(int p, int q) {
-        int rootP = root(p);
-        int rootQ = root(q);
-        if (rootP == rootQ) return;
-
-        // make smaller root point to larger one
-        if (size[rootP] < size[rootQ]) {
-            parent[rootP] = rootQ;
-            size[rootQ] += size[rootP];
-        }
-        else {
-            parent[rootQ] = rootP;
-            size[rootP] += size[rootQ];
-        }
-        count--;
+    	int rootP = root(p);
+    	int rootQ = root(q);
+    	if(rootP == rootQ) return;
+    	
+    	if (size[rootP]<size[rootQ]) {
+    		parent[rootP] =rootQ;
+    		size[rootQ] += size[rootP];
+    	}else {
+    		parent[rootQ] = rootP;
+    		size[rootP]+=size[rootQ];
+    	}
+    	count--;
     }
     
     public static void main(String[] args) {
-    	 int n = StdIn.readInt();
-         WeightedQuickUnionUF uf = new WeightedQuickUnionUF(n);
-         String date, time;
-         //timestamps are sorted ascending
-         while (!StdIn.isEmpty()) {
+    	
+    	int n = StdIn.readInt();
+    	WeightedQuickUnionUF uf = new WeightedQuickUnionUF(n);
+    	String date, time;
+    	while(!StdIn.isEmpty()) {
+    		
+    		//reads each string/int one at a time
+    		int p = StdIn.readInt();
+    		int q = StdIn.readInt();
+    		date = StdIn.readString();
+    		time = StdIn.readString();
+    		
+    		//connect the people from the line
+    		uf.union(p,q);
+    		
+    		StdOut.println("["+p+","+q+"]");
 
-             int p = StdIn.readInt();
-             int q = StdIn.readInt();
-             date = StdIn.readString();
-             time = StdIn.readString();
-
-
-             uf.union(p, q);
-
-             StdOut.println("["+p+","+q+"]");
-
-             if(uf.count() == 1){
-                 StdOut.println("All members were connected at: " + date + time);
-                 break;
-             }
+            if(uf.count() == 1){
+                StdOut.println("All members were connected at: " + date + time);
+                break;
+            }
+    	}
+    	
     }
-
-}
 }
