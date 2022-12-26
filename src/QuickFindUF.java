@@ -14,7 +14,7 @@ import edu.princeton.cs.algs4.StdOut;
  ******************************************************************************/
 
 public class QuickFindUF {
-	private int[] id;
+	private static int[] id;
 	private int count;
 
 	public QuickFindUF(int n) {
@@ -62,9 +62,6 @@ public class QuickFindUF {
 	}
 	
 	private static void find(QuickFindUF id) {
-		for (int i =0; i < ; i++) {
-			System.out.print(false);
-		}
 		
 	}
 	public static void main(String[] args) {
@@ -80,9 +77,7 @@ public class QuickFindUF {
 			}
 		}
 		StdOut.println(uf.count + " components");
-		for(int i = 0; i<uf.id.length; i++) {
-
-		}
+		
 
 	}
 
