@@ -61,9 +61,6 @@ public class QuickFindUF {
         count --;
 	}
 	
-	private static void find(QuickFindUF id) {
-		
-	}
 	public static void main(String[] args) {
 		int n = StdIn.readInt();
 		// tells how many different components se puede ser.
