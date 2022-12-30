@@ -39,7 +39,7 @@ public class QuickUnionUF {
 	
 	public void union(int p, int q) {
 		int i = root(p);
-		int j = root(p);
+		int j = root(q);
 		
 		id[i] = j;
 	}
