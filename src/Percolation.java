@@ -17,14 +17,12 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 	int n;
-	static boolean [] open;
+	static boolean [][] opened;
 	WeightedQuickUnionUF full; 
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
-    	for (int i = 0; i < n*n; i++) {
-    		open[i] = false;
-    	}
+    	this.opened = new boolean[n][n];
     	
     	this.full = new WeightedQuickUnionUF(n*n);
     	
@@ -32,9 +30,8 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-    	int index = (row*n)+col;
-    	System.out.println(index);
-    	//open[index] = true;
+    	opened[row-1][col-1] = true;
+    	//System.out.println(opened[row-1][col-1]);
     	
     }
 
@@ -76,9 +73,11 @@ public class Percolation {
     		perc.open(row, col);
     		
     	}
-    	for (int i = 0; i < open.length; i++) {
-    		System.out.println(open[i]);
-    	}
-    	
+    	//StdOut.println(opened.length);
+    	for (int i = 0; i < opened.length; i++) {
+    		for (int j = 0; j < opened[i].length; j++) {
+    			System.out.println(opened[i][j]+" "+((i*n)+j+1));
+    		}
+    	}	
     }
 }
