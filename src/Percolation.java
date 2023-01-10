@@ -16,29 +16,65 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
  ******************************************************************************/
 
 public class Percolation {
-	int n;
+	static int n;
 	static boolean [] opened;
+	int numberOfOpenSites = 0;
 	WeightedQuickUnionUF full; 
 	
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
-    	this.opened = new boolean[n*n];
+    	this.opened = new boolean[(n*n)+2];
     	
     	this.full = new WeightedQuickUnionUF(n*n);
     	
     }
 
     // opens the site (row, col) if it is not open already
-    public void open(int row, int col, int n) {
-    	int index = ((row-1))*n+(col-1);
+    public void open(int row, int col) {
+    	int index = (row-1)*n)+(col)
     	opened[index] = true;
+    	numberOfOpenSites++;
     	
+    	//look left
+    	if(col-1>0) {
+    		int indexLeft = (row-1)*n)+(col-1);
+    		if(perc.isOpen(row-1,col-1)) {
+    			full.union(index, indexLeft)
+    		}
+    	}
+    	//look right
+    	if (col+1<n) {
+    		int indexRight = (row-1)*n)+(col+1);
+    		if(perc.isOpen(row-1,col+1)) {
+    			full.union(index, indexRight)
+    		}
+    	}
+    	//look up
+    	if(index-n > 0) {
+    		int indexUp = index - n;
+    		if(perc.isOpen(row-2,col)) {
+    			full.union(index, indexLeft)
+    		}
+    	}
+    	//look down
+    	if(row + 1 < n) {
+    		int indexDown = (row*n)+(col);
+    		if(perc.isOpen(row,col)) {
+    			full.union(index, indexLeft)
+    		}
+    		
+    	}
     }
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-		return false;
+		if(opened[(row *n)+col]) {
+			return true;
+		} else {
+			return false;
+		}
+    	
     	
     }
 
@@ -50,7 +86,7 @@ public class Percolation {
 
     // returns the number of open sites
     public int numberOfOpenSites() {
-		return 0;
+		return numberOfOpenSites;
     	
     }
 
@@ -63,21 +99,21 @@ public class Percolation {
     // test client (optional)
     public static void main(String[] args) {
     	
-    	int n = StdIn.readInt();
+    	n = StdIn.readInt();
     	Percolation perc = new Percolation(n);
-    	while(!StdIn.isEmpty()) {
+    	while(!perc.percolates()) {
     		
-    		//reads each int one at a time
-    		int row = StdIn.readInt();
-    		int col = StdIn.readInt();
+    		//gets random number
+    		int row = StdRandom.uniform(n);
+    		int col = StdRandom.uniform(n);
     		
-    		perc.open(row, col,n);
+    		perc.open(row, col);
+    	}
+    	
+    	for (int i = 1; i < opened.length-1; i++) {
+    		System.out.println(opened[i]+ " "+(i));
     		
     	}
-    	//StdOut.println(opened.length);
-    	for (int i = 0; i < opened.length; i++) {
-    		System.out.println(opened[i]+ " "+(i+1));
-    		
-    	}	
+    	//System.out.println(opened[opened.length-1]+ " "+(opened.length-1));
     }
 }
